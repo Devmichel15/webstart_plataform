@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { Header } from '../components/layout/Header'
 import { QuizBlock } from '../components/lesson/sections/QuizBlock.jsx'
-import { getModuleData } from '../data/roadmaps.js'
+import { getModuleData } from '../data/trails.js'
 
 export default function ModuleQuiz() {
   const { courseId, moduleId } = useParams()

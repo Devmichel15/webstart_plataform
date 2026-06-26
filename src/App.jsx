@@ -7,7 +7,7 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute.jsx'
 import { ToastContainer } from './components/ui/Toast.jsx'
 import { AppLayout } from './components/layout/AppLayout'
 import Dashboard from './pages/Dashboard'
-import Courses from './pages/Courses'
+import Journey from './pages/Journey'
 import CourseDetail from './pages/CourseDetail'
 import CourseCompletion from './pages/CourseCompletion'
 import ModuleDetail from './pages/ModuleDetail'
@@ -45,7 +45,7 @@ export default function App() {
                   }
                 >
                   <Route index element={<Dashboard />} />
-                  <Route path="trilhas" element={<Courses />} />
+                  <Route path="trilhas" element={<Journey />} />
                   <Route path="trilhas/:courseId" element={<CourseDetail />} />
                   <Route path="trilhas/:courseId/conclusao" element={<CourseCompletion />} />
                   <Route path="trilhas/:courseId/modulo/:moduleId" element={<ModuleDetail />} />

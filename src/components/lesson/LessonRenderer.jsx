@@ -2,12 +2,11 @@ import { SectionHeader } from './sections/SectionHeader.jsx'
 import { ConceptContent } from './sections/ConceptContent.jsx'
 import { HowItWorksSection } from './sections/HowItWorksSection.jsx'
 import { ListSection } from './sections/ListSection.jsx'
-import { PlaygroundBlock } from './sections/PlaygroundBlock.jsx'
 import { ChallengeBlock } from './sections/ChallengeBlock.jsx'
 import { QuizBlock } from './sections/QuizBlock.jsx'
 import { Card } from '../ui/Card.jsx'
-import { CodePreview } from './CodePreview.jsx'
 import { ExerciseBlock } from './ExerciseBlock.jsx'
+import { CodeLab } from '../lab/CodeLab.jsx'
 
 const sections = [
   { key: 'introduction', title: 'Introdução', component: 'concept' },
@@ -45,32 +44,22 @@ export function LessonRenderer({ lesson }) {
       {lesson.example && (
         <section className="space-y-4">
           <SectionHeader type="example" title="Exemplo" />
-          <div className="grid gap-4 lg:grid-cols-2">
-            {lesson.example.html && (
-              <Card>
-                <h3 className="mb-2 text-sm font-bold uppercase tracking-wide">HTML</h3>
-                <pre className="overflow-x-auto rounded-lg bg-brand-950 p-4 text-sm text-brand-100">
-                  <code>{lesson.example.html}</code>
-                </pre>
-              </Card>
-            )}
-            {lesson.example.css && (
-              <Card>
-                <h3 className="mb-2 text-sm font-bold uppercase tracking-wide">CSS</h3>
-                <pre className="overflow-x-auto rounded-lg bg-brand-950 p-4 text-sm text-brand-100">
-                  <code>{lesson.example.css}</code>
-                </pre>
-              </Card>
-            )}
-          </div>
-          <CodePreview html={lesson.example.html} css={lesson.example.css} />
+          <CodeLab
+            initialHtml={lesson.example.html || ''}
+            initialCss={lesson.example.css || ''}
+            compact
+          />
         </section>
       )}
 
       {lesson.playground && (
         <section className="space-y-4">
           <SectionHeader type="playground" title="Playground" />
-          <PlaygroundBlock html={lesson.playground.html} css={lesson.playground.css} />
+          <CodeLab
+            initialHtml={lesson.playground.html || ''}
+            initialCss={lesson.playground.css || ''}
+            compact
+          />
         </section>
       )}
 

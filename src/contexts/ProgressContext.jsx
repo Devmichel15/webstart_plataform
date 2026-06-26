@@ -94,6 +94,7 @@ export function ProgressProvider({ children }) {
   }, [user])
 
   const completedLessons = profile.completedLessons || []
+  const completedCourses = profile.completedCourses || []
   const totalLessons = allLessons.length
   const completedCount = completedLessons.length
   const progressPercent = totalLessons ? Math.round((completedCount / totalLessons) * 100) : 0
@@ -149,6 +150,29 @@ export function ProgressProvider({ children }) {
 
   const studyHours = Math.round(((profile.totalStudyTime || 0) / 60) * 10) / 10
 
+  const journeyProgress = useMemo(
+    () => getJourneyProgress(completedCourses),
+    [completedCourses],
+  )
+
+  const trailStatuses = useMemo(() => {
+    const map = {}
+    for (const trail of trails) {
+      map[trail.id] = computeTrailStatus(trail.id, completedLessons, completedCourses)
+    }
+    return map
+  }, [completedLessons, completedCourses])
+
+  const getTrailStatus = useCallback(
+    (trailId) => trailStatuses[trailId] || 'locked',
+    [trailStatuses],
+  )
+
+  const recommendedTrail = useMemo(
+    () => getRecommendedTrail(completedCourses, completedLessons),
+    [completedCourses, completedLessons],
+  )
+
   const value = useMemo(
     () => ({
       ...profile,
@@ -161,7 +185,7 @@ export function ProgressProvider({ children }) {
       remainingMinutes,
       recommendedLesson,
       lastLesson,
-      completedCourses: profile.completedCourses || [],
+      completedCourses,
       certificates: profile.certificates || [],
       studyHours,
       progressRecords,
@@ -172,6 +196,10 @@ export function ProgressProvider({ children }) {
       isLessonCompleted,
       getCourseProgress,
       achievements,
+      journeyProgress,
+      getTrailStatus,
+      recommendedTrail,
+      trails,
     }),
     [
       profile,
@@ -182,6 +210,7 @@ export function ProgressProvider({ children }) {
       remainingMinutes,
       recommendedLesson,
       lastLesson,
+      completedCourses,
       studyHours,
       progressRecords,
       loading,
@@ -191,6 +220,9 @@ export function ProgressProvider({ children }) {
       isLessonCompleted,
       getCourseProgress,
       achievements,
+      journeyProgress,
+      getTrailStatus,
+      recommendedTrail,
     ],
   )
 

@@ -7,7 +7,7 @@ import { Card } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
 import { Button } from '../components/ui/Button'
 import { PageSkeleton } from '../components/ui/Skeleton.jsx'
-import { getModuleData, getCourseById, getModuleLessons } from '../data/roadmaps.js'
+import { getModuleData, getTrailById, getModuleLessons } from '../data/trails.js'
 import { useProgress } from '../hooks/useProgress.js'
 import { XP_LESSON } from '../utils/xp.js'
 
@@ -23,7 +23,7 @@ export default function ModuleDetail() {
     async function load() {
       setLoading(true)
       const mod = getModuleData(moduleId)
-      const crs = getCourseById(courseId)
+      const crs = getTrailById(courseId)
       const less = getModuleLessons(moduleId)
       setModule(mod)
       setCourse(crs)

@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { CheckCircle2, Circle, ArrowRight, FlaskConical, HelpCircle, Trophy, Award } from 'lucide-react'
+import { CheckCircle2, Circle, ArrowRight, FlaskConical, HelpCircle, Trophy, Award, Lock, Sparkles } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Header } from '../components/layout/Header'
@@ -7,22 +7,23 @@ import { Card } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
 import { Button } from '../components/ui/Button'
 import { PageSkeleton } from '../components/ui/Skeleton.jsx'
-import { getCourseById, getModuleData } from '../data/roadmaps.js'
+import { getTrailById, getModuleData } from '../data/trails.js'
 import { getLessonById } from '../data/lessons/index.js'
 import { useProgress } from '../hooks/useProgress.js'
 import { XP_LESSON } from '../utils/xp.js'
 
 export default function CourseDetail() {
   const { courseId } = useParams()
-  const [course, setCourse] = useState(null)
+  const [trail, setTrail] = useState(null)
   const [loading, setLoading] = useState(true)
-  const { isLessonCompleted, getCourseProgress } = useProgress()
+  const { isLessonCompleted, getCourseProgress, getTrailStatus, trails: allTrails } = useProgress()
+  const status = getTrailStatus(courseId)
 
   useEffect(() => {
     async function load() {
       setLoading(true)
-      const data = getCourseById(courseId)
-      setCourse(data)
+      const data = getTrailById(courseId)
+      setTrail(data)
       setLoading(false)
     }
     load()
@@ -37,7 +38,7 @@ export default function CourseDetail() {
     )
   }
 
-  if (!course) {
+  if (!trail) {
     return (
       <div className="text-center">
         <h1 className="text-2xl font-black">Trilha não encontrada</h1>
@@ -46,24 +47,92 @@ export default function CourseDetail() {
     )
   }
 
-  const modules = (course.modules || []).map((mId) => getModuleData(mId)).filter(Boolean)
-  const progress = getCourseProgress(course.id)
+  const isLocked = status === 'locked' || trail.status === 'soon'
+  const requiredTrailTitle = trail.requiredTrail
+    ? allTrails?.find((t) => t.id === trail.requiredTrail)?.title || trail.requiredTrail
+    : null
+
+  if (trail.status === 'soon') {
+    return (
+      <div>
+        <Header title={trail.title} subtitle={trail.description} />
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full border-4 border-gray-300 bg-gray-100 text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+            <Clock size={48} />
+          </div>
+          <h2 className="mb-2 text-2xl font-black text-gray-500">Em breve</h2>
+          <p className="mb-6 max-w-md text-gray-400">
+            Esta trilha está sendo preparada com conteúdo exclusivo. Volte em breve!
+          </p>
+          <Link to="/trilhas">
+            <Button>
+              Voltar para jornada
+              <ArrowRight size={16} />
+            </Button>
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  if (isLocked && trail.status !== 'soon') {
+    return (
+      <div>
+        <Header title={trail.title} subtitle={trail.description} />
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full border-4 border-gray-300 bg-gray-100 text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+            <Lock size={48} />
+          </div>
+          <h2 className="mb-2 text-2xl font-black text-gray-500">Trilha Bloqueada</h2>
+          <p className="mb-6 max-w-md text-gray-400">
+            Complete <strong>{requiredTrailTitle}</strong> primeiro para desbloquear esta trilha.
+          </p>
+          <Link to={`/trilhas/${trail.requiredTrail}`}>
+            <Button>
+              Ir para {requiredTrailTitle}
+              <ArrowRight size={16} />
+            </Button>
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  const modules = (trail.modules || []).map((mId) => getModuleData(mId)).filter(Boolean)
+  const progress = getCourseProgress(trail.id)
   const totalLessons = modules.reduce((sum, m) => sum + (m.lessons?.length || 0), 0)
   const completedLessons = modules.reduce((sum, m) => sum + (m.lessons?.filter((lId) => isLessonCompleted(lId)).length || 0), 0)
 
   return (
     <div>
-      <Header title={course.title} subtitle={course.description} />
+      <Header
+        title={trail.title}
+        subtitle={trail.description}
+        badge={
+          status === 'completed' ? 'Concluído' :
+          status === 'in_progress' ? 'Em andamento' :
+          trail.status === 'building' ? 'Em construção' :
+          'Disponível'
+        }
+      />
 
-      <div className="mb-6 rounded-xl border-3 border-brand-800 bg-brand-50 p-4 dark:border-brand-400 dark:bg-brand-950">
-        <div className="mb-2 flex items-center justify-between">
-          <p className="text-sm font-bold">Progresso da trilha</p>
-          <span className="text-sm font-bold text-brand-600">{completedLessons}/{totalLessons} aulas</span>
+      {trail.status === 'building' && (
+        <div className="mb-4 rounded-xl border-3 border-yellow-500 bg-yellow-50 p-3 text-sm font-semibold text-yellow-700 dark:border-yellow-400 dark:bg-yellow-950 dark:text-yellow-300">
+          Esta trilha está em construção. Novos módulos serão adicionados em breve.
         </div>
-        <div className="h-2 overflow-hidden rounded-full border-2 border-brand-800 bg-brand-100 dark:bg-brand-900">
-          <div className="h-full bg-brand-500 transition-all" style={{ width: `${progress}%` }} />
+      )}
+
+      {totalLessons > 0 && (
+        <div className="mb-6 rounded-xl border-3 border-brand-800 bg-brand-50 p-4 dark:border-brand-400 dark:bg-brand-950">
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-sm font-bold">Progresso da trilha</p>
+            <span className="text-sm font-bold text-brand-600">{completedLessons}/{totalLessons} aulas</span>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full border-2 border-brand-800 bg-brand-100 dark:bg-brand-900">
+            <div className="h-full bg-brand-500 transition-all" style={{ width: `${progress}%` }} />
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="space-y-6">
         {modules.map((mod, modIndex) => (
@@ -87,56 +156,90 @@ export default function CourseDetail() {
                     const completed = isLessonCompleted(lessonId)
                     if (!lesson) return null
 
-                    return (
-                      <Link key={lessonId} to={`/aula/${lessonId}`} className="block">
-                        <div className={`flex items-center justify-between rounded-lg border-2 p-3 transition hover:border-brand-500 ${
-                          completed ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950' : 'border-brand-200 dark:border-brand-700'
-                        }`}>
-                          <div className="flex items-center gap-3">
-                            {completed ? (
-                              <CheckCircle2 className="shrink-0 text-green-500" size={20} />
-                            ) : (
-                              <Circle className="shrink-0 text-brand-300" size={20} />
-                            )}
-                            <div>
-                              <p className="text-sm font-bold">{lesson.title}</p>
-                              <span className="text-xs font-semibold text-brand-600">
-                                {lesson.duration} min · +{XP_LESSON} XP
-                              </span>
-                            </div>
+                    const isBuilding = trail.status === 'building'
+                    const lessonContent = (
+                      <div className={`flex items-center justify-between rounded-lg border-2 p-3 transition ${
+                        isBuilding
+                          ? 'border-gray-200 bg-gray-50 opacity-60 dark:border-gray-700 dark:bg-gray-900'
+                          : completed
+                            ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950'
+                            : 'border-brand-200 dark:border-brand-700'
+                      } ${isBuilding ? '' : 'hover:border-brand-500'}`}>
+                        <div className="flex items-center gap-3">
+                          {completed ? (
+                            <CheckCircle2 className="shrink-0 text-green-500" size={20} />
+                          ) : (
+                            <Circle className="shrink-0 text-brand-300" size={20} />
+                          )}
+                          <div>
+                            <p className={`text-sm font-bold ${isBuilding ? 'text-gray-400' : ''}`}>{lesson.title}</p>
+                            <span className="text-xs font-semibold text-brand-600">
+                              {lesson.duration} min · +{XP_LESSON} XP
+                            </span>
                           </div>
-                          <Button variant="secondary" size="sm">{completed ? 'Revisar' : 'Iniciar'}</Button>
                         </div>
+                        {isBuilding ? (
+                          <span className="rounded-lg border-2 border-yellow-400 px-2 py-1 text-xs font-bold text-yellow-600 dark:border-yellow-500 dark:text-yellow-400">
+                            Em construção
+                          </span>
+                        ) : (
+                          <Button variant="secondary" size="sm">{completed ? 'Revisar' : 'Iniciar'}</Button>
+                        )}
+                      </div>
+                    )
+
+                    return isBuilding ? (
+                      <div key={lessonId} className="block cursor-not-allowed">
+                        {lessonContent}
+                      </div>
+                    ) : (
+                      <Link key={lessonId} to={`/aula/${lessonId}`} className="block">
+                        {lessonContent}
                       </Link>
                     )
                   })}
                 </div>
 
                 <div className="mt-4 grid grid-cols-3 gap-2">
-                  {mod.quiz && (
+                  {mod.quiz && (trail.status === 'building' ? (
+                    <div className="flex cursor-not-allowed flex-col items-center gap-1 rounded-lg border-2 border-gray-200 bg-gray-50 p-2 text-center text-xs font-bold text-gray-400 opacity-60 dark:border-gray-700 dark:bg-gray-900">
+                      <HelpCircle size={16} />
+                      Quiz
+                    </div>
+                  ) : (
                     <Link to={`/trilhas/${courseId}/modulo/${mod.id}/quiz`}>
                       <div className="flex flex-col items-center gap-1 rounded-lg border-2 border-amber-200 bg-amber-50 p-2 text-center text-xs font-bold text-amber-800 transition hover:border-amber-500 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200">
                         <HelpCircle size={16} />
                         Quiz
                       </div>
                     </Link>
-                  )}
-                  {mod.lab && (
+                  ))}
+                  {mod.lab && (trail.status === 'building' ? (
+                    <div className="flex cursor-not-allowed flex-col items-center gap-1 rounded-lg border-2 border-gray-200 bg-gray-50 p-2 text-center text-xs font-bold text-gray-400 opacity-60 dark:border-gray-700 dark:bg-gray-900">
+                      <FlaskConical size={16} />
+                      Lab
+                    </div>
+                  ) : (
                     <Link to={`/trilhas/${courseId}/modulo/${mod.id}/lab`}>
                       <div className="flex flex-col items-center gap-1 rounded-lg border-2 border-teal-200 bg-teal-50 p-2 text-center text-xs font-bold text-teal-800 transition hover:border-teal-500 dark:border-teal-800 dark:bg-teal-950 dark:text-teal-200">
                         <FlaskConical size={16} />
                         Lab
                       </div>
                     </Link>
-                  )}
-                  {mod.miniProject && (
+                  ))}
+                  {mod.miniProject && (trail.status === 'building' ? (
+                    <div className="flex cursor-not-allowed flex-col items-center gap-1 rounded-lg border-2 border-gray-200 bg-gray-50 p-2 text-center text-xs font-bold text-gray-400 opacity-60 dark:border-gray-700 dark:bg-gray-900">
+                      <Trophy size={16} />
+                      Projeto
+                    </div>
+                  ) : (
                     <Link to={`/trilhas/${courseId}/modulo/${mod.id}/mini-projeto`}>
                       <div className="flex flex-col items-center gap-1 rounded-lg border-2 border-purple-200 bg-purple-50 p-2 text-center text-xs font-bold text-purple-800 transition hover:border-purple-500 dark:border-purple-800 dark:bg-purple-950 dark:text-purple-200">
                         <Trophy size={16} />
                         Projeto
                       </div>
                     </Link>
-                  )}
+                  ))}
                 </div>
               </div>
             </Card>
@@ -144,15 +247,17 @@ export default function CourseDetail() {
         ))}
       </div>
 
-      <div className="mt-8">
-        <Link to={`/trilhas/${courseId}/conclusao`}>
-          <Button className="w-full">
-            <Award size={18} />
-            Ver conclusão da trilha
-            <ArrowRight size={16} />
-          </Button>
-        </Link>
-      </div>
+      {trail.status !== 'building' && (
+        <div className="mt-8">
+          <Link to={`/trilhas/${courseId}/conclusao`}>
+            <Button className="w-full">
+              <Award size={18} />
+              Ver conclusão da trilha
+              <ArrowRight size={16} />
+            </Button>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

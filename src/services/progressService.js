@@ -11,7 +11,8 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebase/firebase.js'
 import { allLessons } from '../data/lessons/index.js'
-import { courses as staticCourses, getModuleData } from '../data/roadmaps.js'
+import { trails as staticCourses } from '../data/trails.js'
+import { getModuleData } from '../data/trails.js'
 import { withRetry } from '../utils/retry.js'
 import { XP_COURSE, XP_LESSON, XP_MODULE } from '../utils/xp.js'
 import {

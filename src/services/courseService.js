@@ -9,7 +9,7 @@ import {
   where,
 } from 'firebase/firestore'
 import { db } from '../firebase/firebase.js'
-import { courses as staticCourses } from '../data/roadmaps.js'
+import { trails as staticCourses } from '../data/trails.js'
 import { getLessonsByCourse } from '../data/lessons/index.js'
 import { getCache, setCache } from '../utils/cache.js'
 import { withRetry } from '../utils/retry.js'

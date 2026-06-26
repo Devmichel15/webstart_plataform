@@ -3,12 +3,13 @@ import { ArrowLeft, Award, CheckCircle2, GraduationCap, ListChecks, Target, Trop
 import { motion } from 'framer-motion'
 import { Card } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
-import { getCourseById } from '../data/roadmaps.js'
+import { getTrailById } from '../data/trails.js'
 import { useProgress } from '../hooks/useProgress.js'
 
 export default function CourseCompletion() {
   const { courseId } = useParams()
-  const course = getCourseById(courseId)
+  const trail = getTrailById(courseId)
+  const course = trail
   const { getCourseProgress } = useProgress()
 
   if (!course) {

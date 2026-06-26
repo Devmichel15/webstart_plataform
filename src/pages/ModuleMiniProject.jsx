@@ -4,7 +4,7 @@ import { Header } from '../components/layout/Header'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { CodeLab } from '../components/lab/CodeLab'
-import { getModuleData } from '../data/roadmaps.js'
+import { getModuleData } from '../data/trails.js'
 import { useState } from 'react'
 
 export default function ModuleMiniProject() {

@@ -1,9 +1,9 @@
-import { courses as newCourses } from './roadmaps.js'
+import { trails as sourceTrails } from './trails.js'
 import { allLessons as newLessons, getLessonById as getNewLessonById } from './lessons/index.js'
 
 export const allLessons = newLessons
 
-export const courses = newCourses.map((c) => ({
+export const courses = sourceTrails.map((c) => ({
   ...c,
   lessons: newLessons.filter((l) => l.courseId === c.id),
 }))

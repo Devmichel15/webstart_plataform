@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, Clock, Award, Target } from 'lucide-react'
-import { getModuleData } from '../data/roadmaps.js'
+import { getModuleData } from '../data/trails.js'
 import { CodeLab } from '../components/lab/CodeLab'
 import { XP_LAB } from '../utils/xp.js'
 
