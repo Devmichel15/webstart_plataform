@@ -14,6 +14,7 @@
   --text-primary: #064e3b;
   --text-secondary: #047857;
   --text-muted: #059669;
+  --text-reading: #1f2937;
 
   --border: #a7f3d0;
   --border-strong: #065f46;
@@ -35,6 +36,7 @@
   --text-primary: #e8e8e8;
   --text-secondary: #a0a0b0;
   --text-muted: #707080;
+  --text-reading: #f3f4f6;
 
   --border: #3c3c44;
   --border-strong: #5a5a6a;
@@ -56,6 +58,7 @@
   --color-primary: var(--text-primary);
   --color-secondary: var(--text-secondary);
   --color-muted: var(--text-muted);
+  --color-reading: var(--text-reading);
 
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
@@ -1092,7 +1095,7 @@ body {
 .reading-content {
   font-size: 1.0625rem;
   line-height: 1.75;
-  color: var(--text-primary);
+  color: var(--text-reading);
 }
 
 .reading-content p {
@@ -1102,7 +1105,7 @@ body {
 .reading-content-compact {
   font-size: 0.9375rem;
   line-height: 1.6;
-  color: var(--text-primary);
+  color: var(--text-reading);
 }
 
 .reading-content code,

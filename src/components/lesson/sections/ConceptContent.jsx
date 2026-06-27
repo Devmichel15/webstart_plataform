@@ -8,7 +8,7 @@ export function ConceptContent({ content }) {
       initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="prose prose-brand max-w-none text-brand-800 dark:text-brand-200"
+      className="prose prose-brand max-w-none text-reading"
     >
       <p className="leading-relaxed text-lg">{content}</p>
     </motion.div>

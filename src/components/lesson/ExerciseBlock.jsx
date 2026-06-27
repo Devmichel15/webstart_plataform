@@ -16,9 +16,9 @@ export function ExerciseBlock({ exercise, onComplete }) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border-3 border-brand-800 bg-brand-50 p-5 dark:border-brand-400 dark:bg-brand-950">
+      <div className="rounded-xl border-3 border-strong bg-surface p-5">
         <h3 className="mb-2 text-lg font-black">Exercício Prático</h3>
-        <p className="text-brand-800 dark:text-brand-200">{exercise.prompt}</p>
+        <p className="text-reading">{exercise.prompt}</p>
         {showHint && (
           <p className="mt-3 flex items-start gap-2 rounded-lg border-2 border-amber-500 bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-200">
             <Lightbulb size={18} className="mt-0.5 shrink-0" />

@@ -27,7 +27,7 @@ export function ListSection({ type, items }) {
         {items.map((item, i) => (
           <li key={i} className="flex items-start gap-3">
             <Icon size={18} className={`mt-0.5 shrink-0 ${style.color}`} strokeWidth={2.5} />
-            <span className="leading-relaxed text-brand-800 dark:text-brand-200">{item}</span>
+            <span className="leading-relaxed text-reading">{item}</span>
           </li>
         ))}
       </ul>

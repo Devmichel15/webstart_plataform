@@ -63,7 +63,7 @@ export function QuizBlock({ quiz }) {
           <h3 className="mb-2 text-xl font-black">
             {percentage >= 80 ? 'Excelente!' : percentage >= 60 ? 'Bom trabalho!' : 'Continue praticando!'}
           </h3>
-          <p className="mb-4 text-brand-700 dark:text-brand-300">
+          <p className="mb-4 text-reading">
             Você acertou {score} de {quiz.questions.length} questões
           </p>
           <div className="mb-4 space-y-2 text-left">

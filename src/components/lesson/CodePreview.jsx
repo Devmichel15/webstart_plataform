@@ -20,8 +20,8 @@ ${html}
   }, [html, css])
 
   return (
-    <div className="overflow-hidden rounded-xl border-3 border-brand-800 dark:border-brand-400">
-      <div className="border-b-2 border-brand-800 bg-brand-100 px-4 py-2 text-sm font-bold dark:border-brand-400 dark:bg-brand-900">
+    <div className="overflow-hidden rounded-xl border-3 border-strong">
+      <div className="border-b-2 border-strong bg-surface-hover px-4 py-2 text-sm font-bold">
         {title}
       </div>
       <iframe

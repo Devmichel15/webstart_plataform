@@ -97,7 +97,7 @@ export function LessonRenderer({ lesson }) {
               ))}
             </ul>
           ) : (
-            <p className="text-brand-600">Nenhum resumo disponível.</p>
+            <p className="text-secondary">Nenhum resumo disponível.</p>
           )}
         </Card>
       </section>
@@ -115,7 +115,7 @@ export function LessonRenderer({ lesson }) {
               ))}
             </ul>
           ) : (
-            <p className="text-brand-600">Nenhum checklist disponível.</p>
+            <p className="text-secondary">Nenhum checklist disponível.</p>
           )}
         </Card>
       </section>

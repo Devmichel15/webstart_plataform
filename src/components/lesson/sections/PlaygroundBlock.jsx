@@ -31,7 +31,7 @@ export function PlaygroundBlock({ html = '', css = '', compact = false }) {
       initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="rounded-xl border-3 border-brand-800 bg-white p-5 dark:border-brand-400 dark:bg-brand-950"
+      className="rounded-xl border-3 border-strong bg-surface p-5"
     >
       <div className="mb-4 flex items-center justify-between">
         <h3 className="font-black">Playground</h3>
@@ -52,20 +52,20 @@ export function PlaygroundBlock({ html = '', css = '', compact = false }) {
           <textarea
             value={codeHtml}
             onChange={(e) => setCodeHtml(e.target.value)}
-            className="h-32 w-full resize-y rounded-lg border-3 border-brand-800 bg-white p-3 font-mono text-sm dark:border-brand-400 dark:bg-brand-950 dark:text-brand-100"
+            className="h-32 w-full resize-y rounded-lg border-3 border-strong bg-surface p-3 font-mono text-sm dark:text-primary"
             spellCheck={false}
           />
           <label className="block text-xs font-bold uppercase tracking-wide">CSS</label>
           <textarea
             value={codeCss}
             onChange={(e) => setCodeCss(e.target.value)}
-            className="h-24 w-full resize-y rounded-lg border-3 border-brand-800 bg-white p-3 font-mono text-sm dark:border-brand-400 dark:bg-brand-950 dark:text-brand-100"
+            className="h-24 w-full resize-y rounded-lg border-3 border-strong bg-surface p-3 font-mono text-sm dark:text-primary"
             spellCheck={false}
           />
         </div>
         <div>
           <label className="mb-3 block text-xs font-bold uppercase tracking-wide">Preview</label>
-          <div className="overflow-hidden rounded-xl border-3 border-brand-800 dark:border-brand-400">
+          <div className="overflow-hidden rounded-xl border-3 border-strong">
             <iframe
               title="Playground Preview"
               srcDoc={srcDoc}

@@ -72,7 +72,7 @@ export default function Lesson() {
 
   return (
     <div>
-      <Link to={`/trilhas/${lesson.courseId}`} className="mb-4 inline-flex items-center gap-1 text-sm font-bold text-brand-600 hover:underline">
+      <Link to={`/trilhas/${lesson.courseId}`} className="mb-4 inline-flex items-center gap-1 text-sm font-bold text-secondary hover:underline">
         <ArrowLeft size={16} />
         Voltar para {course?.title}
       </Link>
@@ -97,7 +97,7 @@ export default function Lesson() {
               {completing ? <Loader2 className="animate-spin" size={18} /> : `Concluir aula (+${XP_LESSON} XP)`}
             </Button>
           ) : (
-            <p className="font-bold text-brand-600">Aula concluída! Progresso salvo na nuvem.</p>
+            <p className="font-bold text-secondary">Aula concluída! Progresso salvo na nuvem.</p>
           )}
         </Card>
       </div>
@@ -118,7 +118,7 @@ export default function Lesson() {
 
 function Card({ children, className = '' }) {
   return (
-    <div className={`rounded-xl border-3 border-brand-800 bg-white p-5 dark:border-brand-400 dark:bg-brand-950 ${className}`}>
+    <div className={`rounded-xl border-3 border-strong bg-surface p-5 ${className}`}>
       {children}
     </div>
   )

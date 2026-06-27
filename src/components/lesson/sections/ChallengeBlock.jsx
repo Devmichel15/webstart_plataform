@@ -24,7 +24,7 @@ export function ChallengeBlock({ challenge }) {
           </div>
           <h3 className="font-black">Desafio</h3>
         </div>
-        <p className="mb-4 leading-relaxed text-brand-800 dark:text-brand-200">{challenge.prompt}</p>
+        <p className="mb-4 leading-relaxed text-reading">{challenge.prompt}</p>
 
         {challenge.starterCode && (
           <pre className="mb-4 overflow-x-auto rounded-lg border-2 border-brand-200 bg-brand-50 p-3 text-sm dark:border-brand-700 dark:bg-brand-900">

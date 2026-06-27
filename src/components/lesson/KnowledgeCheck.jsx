@@ -70,10 +70,10 @@ export function KnowledgeCheck({ lessonId }) {
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="my-8 rounded-xl border border-brand-200 bg-white p-5 dark:border-brand-700 dark:bg-brand-900"
+      className="my-8 rounded-xl border bg-surface p-5"
     >
       <p className="mb-1 text-xs font-bold uppercase tracking-widest text-brand-400">Você entendeu?</p>
-      <p className="mb-4 text-base font-semibold text-brand-800 dark:text-brand-200">{q.question}</p>
+      <p className="mb-4 text-base font-semibold text-reading">{q.question}</p>
 
       <div className="space-y-2">
         {q.options.map((opt, idx) => {

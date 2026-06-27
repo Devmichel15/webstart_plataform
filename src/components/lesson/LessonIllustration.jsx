@@ -39,7 +39,7 @@ export function LessonIllustration({ type = 'code', className = '' }) {
         <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-3 border-brand-800 bg-brand-500 text-white shadow-[4px_4px_0_0_#064e3b] dark:border-brand-400 dark:shadow-[4px_4px_0_0_#34d399]">
           <Icon size={36} strokeWidth={2.5} />
         </div>
-        <p className="text-sm font-bold uppercase tracking-widest text-brand-700 dark:text-brand-300">
+        <p className="text-sm font-bold uppercase tracking-widest text-secondary">
           WebStart Academy
         </p>
       </div>
