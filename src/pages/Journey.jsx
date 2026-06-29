@@ -107,116 +107,123 @@ export default function Journey() {
                 </div>
 
                 <div className="md:ml-16">
-                  <Link to={status === 'locked' ? '#' : `/trilhas/${trail.id}`}
-                    className={`block ${status === 'locked' ? 'pointer-events-none' : ''}`}
-                    onClick={(e) => { if (status === 'locked') e.preventDefault() }}
-                  >
-                    <Card hover={status !== 'locked'} className={`h-full transition-all ${
-                      status === 'locked' ? 'opacity-60' : ''
-                    }`}>
-                      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                        <div className="flex items-start gap-4">
-                          <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-3 ${
-                            status === 'completed'
-                              ? 'border-green-500 bg-green-500 text-white'
-                              : trail.status === 'soon'
-                                ? 'border-muted bg-surface text-muted'
-                                : status === 'locked'
-                                  ? 'border-muted bg-surface text-muted'
-                                  : 'border-strong bg-brand-500 text-white shadow-[4px_4px_0_0_#064e3b]'
-                          }`}>
-                            {trail.status === 'soon' ? <Clock size={28} /> : status === 'locked' ? <Lock size={28} /> : <Icon size={28} />}
-                          </div>
-
-                          <div>
-                            <div className="mb-1 flex flex-wrap items-center gap-2">
-                              <h2 className={`text-xl font-black ${
-                                status === 'locked' ? 'text-muted' : ''
+                  {(() => {
+                    const Wrapper = status === 'completed' ? 'div' : Link
+                    const wrapperProps = status === 'completed'
+                      ? { className: 'block' }
+                      : { to: status === 'locked' ? '#' : `/trilhas/${trail.id}`,
+                          className: `block ${status === 'locked' ? 'pointer-events-none' : ''}`,
+                          onClick: (e) => { if (status === 'locked') e.preventDefault() } }
+                    return (
+                      <Wrapper {...wrapperProps}>
+                        <Card hover={status !== 'locked'} className={`h-full transition-all ${
+                          status === 'locked' ? 'opacity-60' : ''
+                        }`}>
+                          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                            <div className="flex items-start gap-4">
+                              <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-3 ${
+                                status === 'completed'
+                                  ? 'border-green-500 bg-green-500 text-white'
+                                  : trail.status === 'soon'
+                                    ? 'border-muted bg-surface text-muted'
+                                    : status === 'locked'
+                                      ? 'border-muted bg-surface text-muted'
+                                      : 'border-strong bg-brand-500 text-white shadow-[4px_4px_0_0_#064e3b]'
                               }`}>
-                                {trail.title}
-                              </h2>
-                              <span className={`inline-flex items-center gap-1 rounded-lg border-2 px-2 py-0.5 text-xs font-bold ${cfg.color}`}>
-                                <StatusIcon size={12} />
-                                {cfg.label}
-                              </span>
-                              {trail.status === 'building' && (
-                                <span className="rounded-lg border-2 border-yellow-500 px-2 py-0.5 text-xs font-bold text-yellow-600 dark:border-yellow-400 dark:text-yellow-300">
-                                  Em construção
-                                </span>
-                              )}
-                              {trail.status === 'soon' && (
-                                <span className="rounded-lg border-2 border-muted px-2 py-0.5 text-xs font-bold text-muted">
-                                  Em breve
-                                </span>
-                              )}
+                                {trail.status === 'soon' ? <Clock size={28} /> : status === 'locked' ? <Lock size={28} /> : <Icon size={28} />}
+                              </div>
+
+                              <div>
+                                <div className="mb-1 flex flex-wrap items-center gap-2">
+                                  <h2 className={`text-xl font-black ${
+                                    status === 'locked' ? 'text-muted' : ''
+                                  }`}>
+                                    {trail.title}
+                                  </h2>
+                                  <span className={`inline-flex items-center gap-1 rounded-lg border-2 px-2 py-0.5 text-xs font-bold ${cfg.color}`}>
+                                    <StatusIcon size={12} />
+                                    {cfg.label}
+                                  </span>
+                                  {trail.status === 'building' && (
+                                    <span className="rounded-lg border-2 border-yellow-500 px-2 py-0.5 text-xs font-bold text-yellow-600 dark:border-yellow-400 dark:text-yellow-300">
+                                      Em construção
+                                    </span>
+                                  )}
+                                  {trail.status === 'soon' && (
+                                    <span className="rounded-lg border-2 border-muted px-2 py-0.5 text-xs font-bold text-muted">
+                                      Em breve
+                                    </span>
+                                  )}
+                                </div>
+
+                                <p className={`text-sm ${
+                                  status === 'locked'
+                                    ? 'text-muted'
+                                    : 'text-secondary'
+                                }`}>
+                                  {trail.description}
+                                </p>
+
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                  {!status === 'locked' && (
+                                    <>
+                                      <Badge variant={trail.difficulty === 'beginner' ? 'default' : trail.difficulty === 'intermediate' ? 'warning' : 'danger'}>
+                                        {trail.difficulty === 'beginner' ? 'Iniciante' : trail.difficulty === 'intermediate' ? 'Intermediário' : 'Avançado'}
+                                      </Badge>
+                                      <Badge variant="success">{trail.estimatedHours}h</Badge>
+                                      <Badge>Nível {trail.level}</Badge>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
                             </div>
 
-                            <p className={`text-sm ${
-                              status === 'locked'
-                                ? 'text-muted'
-                                : 'text-secondary'
-                            }`}>
-                              {trail.description}
-                            </p>
-
-                            <div className="mt-2 flex flex-wrap gap-2">
-                              {!status === 'locked' && (
-                                <>
-                                  <Badge variant={trail.difficulty === 'beginner' ? 'default' : trail.difficulty === 'intermediate' ? 'warning' : 'danger'}>
-                                    {trail.difficulty === 'beginner' ? 'Iniciante' : trail.difficulty === 'intermediate' ? 'Intermediário' : 'Avançado'}
-                                  </Badge>
-                                  <Badge variant="success">{trail.estimatedHours}h</Badge>
-                                  <Badge>Nível {trail.level}</Badge>
-                                </>
+                            <div className="sm:text-right shrink-0">
+                              {trail.status === 'soon' && (
+                                <p className="text-xs font-semibold text-muted">
+                                  Em desenvolvimento
+                                </p>
+                              )}
+                              {status === 'locked' && trail.status !== 'soon' && trail.requiredTrail && (
+                                <p className="text-xs font-semibold text-muted">
+                                  Complete {getTrailTitle(trail.requiredTrail)} para desbloquear
+                                </p>
                               )}
                             </div>
                           </div>
-                        </div>
 
-                        <div className="sm:text-right shrink-0">
-                          {trail.status === 'soon' && (
-                            <p className="text-xs font-semibold text-muted">
-                              Em desenvolvimento
-                            </p>
+                          {status !== 'locked' && totalLessons > 0 && (
+                            <div className="mt-4">
+                              <ProgressBar
+                                value={progress}
+                                label={`${completedInTrail}/${totalLessons} aulas`}
+                              />
+                            </div>
                           )}
-                          {status === 'locked' && trail.status !== 'soon' && trail.requiredTrail && (
-                            <p className="text-xs font-semibold text-muted">
-                              Complete {getTrailTitle(trail.requiredTrail)} para desbloquear
-                            </p>
+
+                          {status !== 'locked' && status !== 'completed' && trail.status === 'available' && (
+                            <div className="mt-4">
+                              <Button>
+                                {status === 'in_progress' ? 'Continuar trilha' : 'Explorar trilha'}
+                                <ArrowRight size={16} />
+                              </Button>
+                            </div>
                           )}
-                        </div>
-                      </div>
 
-                      {status !== 'locked' && totalLessons > 0 && (
-                        <div className="mt-4">
-                          <ProgressBar
-                            value={progress}
-                            label={`${completedInTrail}/${totalLessons} aulas`}
-                          />
-                        </div>
-                      )}
-
-                      {status !== 'locked' && status !== 'completed' && trail.status === 'available' && (
-                        <div className="mt-4">
-                          <Button>
-                            {status === 'in_progress' ? 'Continuar trilha' : 'Explorar trilha'}
-                            <ArrowRight size={16} />
-                          </Button>
-                        </div>
-                      )}
-
-                      {status === 'completed' && (
-                        <div className="mt-4">
-                          <Link to={`/trilhas/${trail.id}/conclusao`}>
-                            <Button variant="secondary">
-                              Ver certificado
-                              <ArrowRight size={16} />
-                            </Button>
-                          </Link>
-                        </div>
-                      )}
-                    </Card>
-                  </Link>
+                          {status === 'completed' && (
+                            <div className="mt-4">
+                              <Link to={`/trilhas/${trail.id}/conclusao`}>
+                                <Button variant="secondary">
+                                  Ver certificado
+                                  <ArrowRight size={16} />
+                                </Button>
+                              </Link>
+                            </div>
+                          )}
+                        </Card>
+                      </Wrapper>
+                    )
+                  })()}
                 </div>
               </motion.div>
             )

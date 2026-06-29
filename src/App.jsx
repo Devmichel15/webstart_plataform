@@ -18,6 +18,7 @@ import Lesson from './pages/Lesson'
 import Lab from './pages/Lab'
 import Materials from './pages/Materials'
 import Profile from './pages/Profile'
+import AIChat from './pages/AIChat'
 import PublicProfile from './pages/PublicProfile'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -58,6 +59,7 @@ export default function App() {
                   <Route path="laboratorio" element={<Lab />} />
                   <Route path="materiais" element={<Materials />} />
                   <Route path="perfil" element={<Profile />} />
+                  <Route path="chat" element={<AIChat />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace />} />

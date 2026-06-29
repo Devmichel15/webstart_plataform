@@ -3,6 +3,7 @@ import {
   Award,
   Beaker,
   BookOpen,
+  Bot,
   GraduationCap,
   LayoutDashboard,
   LogOut,
@@ -17,6 +18,7 @@ const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/trilhas', label: 'Trilhas', icon: BookOpen },
   { to: '/laboratorio', label: 'Laboratório', icon: Beaker },
+  { to: '/chat', label: 'Tutor IA', icon: Bot },
   { to: '/materiais', label: 'Materiais', icon: GraduationCap },
   { to: '/perfil', label: 'Perfil', icon: Award },
 ]

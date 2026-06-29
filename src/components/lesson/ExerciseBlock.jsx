@@ -1,13 +1,15 @@
 import { useState } from 'react'
-import { Lightbulb } from 'lucide-react'
+import { Lightbulb, Sparkles } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { CodeLab } from '../lab/CodeLab'
 import { ShareButtons } from '../share/ShareButtons'
+import { AITutor } from '../ai/AITutor'
 import { useProgress } from '../../hooks/useProgress'
 
 export function ExerciseBlock({ exercise, onComplete }) {
   const [showHint, setShowHint] = useState(false)
   const [done, setDone] = useState(false)
+  const [showAI, setShowAI] = useState(false)
   const [shareData, setShareData] = useState(null)
   const { completeExercise, name, level, streak } = useProgress()
 
@@ -62,7 +64,26 @@ export function ExerciseBlock({ exercise, onComplete }) {
             <ShareButtons shareData={shareData} />
           </div>
         )}
+
+        <div className="mt-4">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setShowAI((v) => !v)}
+            className="flex items-center gap-2"
+          >
+            <Sparkles size={15} />
+            {showAI ? 'Fechar Tutor AI' : 'Pedir revisão à IA'}
+          </Button>
+        </div>
       </div>
+
+      {showAI && (
+        <AITutor
+          lessonContext={exercise.prompt}
+          initialCode={exercise.starterCode}
+        />
+      )}
 
       <CodeLab
         initialHtml={exercise.starterCode?.includes('<') ? exercise.starterCode : '<!-- Escreva seu HTML -->\n<div></div>'}

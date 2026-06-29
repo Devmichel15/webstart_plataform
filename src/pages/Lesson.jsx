@@ -8,6 +8,7 @@ import { Badge } from '../components/ui/Badge'
 import { PageSkeleton } from '../components/ui/Skeleton.jsx'
 import { LessonRenderer } from '../components/lesson/LessonRenderer.jsx'
 import { ShareButtons } from '../components/share/ShareButtons'
+import { AITutor } from '../components/ai/AITutor'
 import { getCourseById } from '../services/courseService.js'
 import { getLessonById, getNextLesson } from '../services/lessonService.js'
 import { useProgress } from '../hooks/useProgress.js'
@@ -100,6 +101,12 @@ export default function Lesson() {
       </motion.section>
 
       <LessonRenderer lesson={lesson} />
+
+      <div className="mt-8">
+        <Card>
+          <AITutor lessonContext={lesson.title} />
+        </Card>
+      </div>
 
       <div className="mt-8 space-y-4">
         <Card className="!p-5">
