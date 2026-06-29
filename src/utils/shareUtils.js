@@ -21,16 +21,6 @@ export function buildShareText({ name, title, xpEarned, streak, level, badge, ta
   return lines.join('\n')
 }
 
-export function shareViaWhatsApp(text) {
-  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
-}
-
-export function shareViaTikTok(text) {
-  const url = `https://www.tiktok.com/upload?lang=pt-BR`
-  navigator.clipboard?.writeText(text)
-  window.open(url, '_blank', 'noopener,noreferrer')
-}
-
 export async function copyToClipboard(text) {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(text)
@@ -88,7 +78,8 @@ export function renderShareCardToCanvas(data, width = 1080, height = 1920) {
   const BG = '#0a0a0a'
   const TEXT = '#e8e8e8'
   const MUTED = '#a0a0b0'
-  const PAD = Math.round(width * 0.075)
+  const PAD = Math.round(width * 0.1)
+  const CONTENT_W = width - PAD * 2
 
   // ── Background ──
   ctx.fillStyle = BG
@@ -113,7 +104,7 @@ export function renderShareCardToCanvas(data, width = 1080, height = 1920) {
   // ── Header: Logo ──
   const logoSize = Math.round(width * 0.04)
   const logoX = PAD
-  const logoY = Math.round(PAD * 0.7)
+  const logoY = Math.round(PAD * 0.5)
   drawLogo(ctx, logoX, logoY, logoSize)
 
   const logoRight = logoX + logoSize
@@ -121,16 +112,16 @@ export function renderShareCardToCanvas(data, width = 1080, height = 1920) {
 
   // ── Header: @username ──
   ctx.fillStyle = MUTED
-  ctx.font = `600 ${Math.round(width * 0.022)}px ${mono}`
+  ctx.font = `600 ${Math.round(width * 0.02)}px ${mono}`
   ctx.textAlign = 'left'
   ctx.textBaseline = 'middle'
-  const userX = logoRight + Math.round(PAD * 0.3)
+  const userX = logoRight + Math.round(PAD * 0.2)
   ctx.fillText(`@${data.name || 'aluno'}`, userX, headerCenterY)
 
   // ── Header: Level badge ──
   const lvlText = `LVL ${data.level || 1}`
-  ctx.font = `700 ${Math.round(width * 0.02)}px ${mono}`
-  const lvlW = ctx.measureText(lvlText).width + Math.round(PAD * 0.4)
+  ctx.font = `700 ${Math.round(width * 0.018)}px ${mono}`
+  const lvlW = ctx.measureText(lvlText).width + Math.round(PAD * 0.3)
   const lvlH = Math.round(logoSize * 0.8)
   const lvlY2 = logoY + Math.round((logoSize - lvlH) / 2)
   const lvlX = width - PAD - lvlW
@@ -146,7 +137,7 @@ export function renderShareCardToCanvas(data, width = 1080, height = 1920) {
   ctx.fillText(lvlText, lvlX + lvlW / 2, lvlY2 + lvlH / 2)
 
   // ── Divider ──
-  const divY = logoY + logoSize + Math.round(PAD * 0.5)
+  const divY = logoY + logoSize + Math.round(PAD * 0.4)
   ctx.strokeStyle = BRAND
   ctx.globalAlpha = 0.4
   ctx.lineWidth = 2
@@ -157,23 +148,33 @@ export function renderShareCardToCanvas(data, width = 1080, height = 1920) {
   ctx.globalAlpha = 1
 
   // ── Title ──
-  let contentY = divY + Math.round(PAD * 0.6)
-  const titleSize = Math.round(width * 0.045)
+  let contentY = divY + Math.round(PAD * 0.5)
   ctx.fillStyle = '#ffffff'
-  ctx.font = `800 ${titleSize}px ${mono}`
-  const maxW = width - PAD * 2
-  contentY = wrapTextCentered(ctx, data.title || 'Conquista!', PAD, contentY, maxW, titleSize * 1.6)
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'top'
+  const titleSize = Math.round(width * 0.04)
+  ctx.font = `800 ${titleSize}px ${sans}`
+  const titleLines = wordWrap(ctx, data.title || 'Conquista!', CONTENT_W)
+  for (const line of titleLines) {
+    ctx.fillText(line, width / 2, contentY)
+    contentY += titleSize * 1.5
+  }
 
   // ── Tagline ──
   if (data.tagline) {
-    contentY += Math.round(PAD * 0.25)
+    contentY += Math.round(PAD * 0.2)
     ctx.fillStyle = MUTED
-    ctx.font = `${Math.round(width * 0.024)}px ${mono}`
-    contentY = wrapTextCentered(ctx, data.tagline, PAD, contentY, maxW, Math.round(width * 0.038))
+    const tagSize = Math.round(width * 0.022)
+    ctx.font = `${tagSize}px ${sans}`
+    const tagLines = wordWrap(ctx, data.tagline, CONTENT_W)
+    for (const line of tagLines) {
+      ctx.fillText(line, width / 2, contentY)
+      contentY += tagSize * 1.5
+    }
   }
 
   // ── Stats divider ──
-  contentY += Math.round(PAD * 0.35)
+  contentY += Math.round(PAD * 0.3)
   ctx.strokeStyle = BRAND
   ctx.globalAlpha = 0.25
   ctx.setLineDash([Math.round(width * 0.008), Math.round(width * 0.008)])
@@ -184,7 +185,7 @@ export function renderShareCardToCanvas(data, width = 1080, height = 1920) {
   ctx.setLineDash([])
   ctx.globalAlpha = 1
 
-  contentY += Math.round(PAD * 0.5)
+  contentY += Math.round(PAD * 0.4)
 
   // ── Stats ──
   const stats = [
@@ -193,20 +194,18 @@ export function renderShareCardToCanvas(data, width = 1080, height = 1920) {
     data.badge ? { icon: '🏆', label: `Badge: ${data.badge}` } : null,
   ].filter(Boolean)
 
-  const statH = Math.round(width * 0.07)
-  const iconW = Math.round(width * 0.05)
-  const statFontSize = Math.round(width * 0.028)
+  const statH = Math.round(width * 0.06)
 
   for (const stat of stats) {
-    ctx.font = `${Math.round(width * 0.038)}px ${sans}`
+    ctx.font = `${Math.round(width * 0.035)}px ${sans}`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     ctx.fillStyle = TEXT
-    ctx.fillText(stat.icon, PAD + iconW / 2, contentY + statH / 2)
+    ctx.fillText(stat.icon, PAD + Math.round(PAD * 0.3), contentY + statH / 2)
 
-    ctx.font = `700 ${statFontSize}px ${mono}`
+    ctx.font = `700 ${Math.round(width * 0.024)}px ${sans}`
     ctx.textAlign = 'left'
-    ctx.fillText(stat.label, PAD + iconW + Math.round(PAD * 0.15), contentY + statH / 2)
+    ctx.fillText(stat.label, PAD + Math.round(PAD * 0.7), contentY + statH / 2)
 
     const lineY = contentY + statH
     ctx.strokeStyle = 'rgba(16, 185, 129, 0.06)'
@@ -221,12 +220,29 @@ export function renderShareCardToCanvas(data, width = 1080, height = 1920) {
 
   // ── Footer ──
   ctx.fillStyle = 'rgba(16, 185, 129, 0.35)'
-  ctx.font = `700 ${Math.round(width * 0.02)}px ${mono}`
+  ctx.font = `700 ${Math.round(width * 0.02)}px ${sans}`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'bottom'
   ctx.fillText('WEBSTART.APP', width / 2, height - PAD * 0.5)
 
   return canvas
+}
+
+function wordWrap(ctx, text, maxWidth) {
+  const words = text.split(' ')
+  const lines = []
+  let line = ''
+  for (const word of words) {
+    const test = line ? `${line} ${word}` : word
+    if (ctx.measureText(test).width > maxWidth && line) {
+      lines.push(line)
+      line = word
+    } else {
+      line = test
+    }
+  }
+  if (line) lines.push(line)
+  return lines.length ? lines : [text]
 }
 
 function roundRect(ctx, x, y, w, h, r) {
