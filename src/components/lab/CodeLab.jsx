@@ -5,6 +5,7 @@ import { LabConsole } from './LabConsole.jsx'
 import { LabToolbar } from './LabToolbar.jsx'
 import { InfoPanel } from './InfoPanel.jsx'
 import { highlightCode } from './SyntaxHighlighter.js'
+import { formatCSS, formatHTML } from '../../utils/formatCode.js'
 
 export function CodeLab({
   initialHtml = '<h1>WebStart Lab</h1>\n<p>Edite aqui!</p>',
@@ -12,8 +13,10 @@ export function CodeLab({
   lab = null,
   compact = false,
 }) {
-  const [html, setHtml] = useState(initialHtml)
-  const [css, setCss] = useState(initialCss)
+  const formattedInitialHtml = useMemo(() => formatHTML(initialHtml), [initialHtml])
+  const formattedInitialCss = useMemo(() => formatCSS(initialCss), [initialCss])
+  const [html, setHtml] = useState(formattedInitialHtml)
+  const [css, setCss] = useState(formattedInitialCss)
   const [logs, setLogs] = useState([])
   const [showHint, setShowHint] = useState(false)
   const [showSolution, setShowSolution] = useState(false)
@@ -34,14 +37,14 @@ export function CodeLab({
   }, [html, css, addLog])
 
   const handleReset = useCallback(() => {
-    setHtml(initialHtml)
-    setCss(initialCss)
+    setHtml(formattedInitialHtml)
+    setCss(formattedInitialCss)
     setLogs([])
     setExecuted(false)
     setShowHint(false)
     setShowSolution(false)
     addLog('info', 'Código restaurado ao estado inicial')
-  }, [initialHtml, initialCss, addLog])
+  }, [formattedInitialHtml, formattedInitialCss, addLog])
 
   const handleCopy = useCallback(async () => {
     const code = `<!-- HTML -->\n${html}\n\n/* CSS */\n${css}`
@@ -152,7 +155,7 @@ export function CodeLab({
                 <div className="lab-solution-block">
                   <span className="lab-solution-label">HTML</span>
                   <pre className="lab-solution-code">
-                    <code dangerouslySetInnerHTML={{ __html: highlightCode(lab.solutionHtml, 'html') }} />
+                    <code dangerouslySetInnerHTML={{ __html: highlightCode(formatHTML(lab.solutionHtml), 'html') }} />
                   </pre>
                 </div>
               )}
@@ -160,7 +163,7 @@ export function CodeLab({
                 <div className="lab-solution-block">
                   <span className="lab-solution-label">CSS</span>
                   <pre className="lab-solution-code">
-                    <code dangerouslySetInnerHTML={{ __html: highlightCode(lab.solutionCss, 'css') }} />
+                    <code dangerouslySetInnerHTML={{ __html: highlightCode(formatCSS(lab.solutionCss), 'css') }} />
                   </pre>
                 </div>
               )}

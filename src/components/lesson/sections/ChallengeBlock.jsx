@@ -1,12 +1,23 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Lightbulb } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
+import { formatCSS, formatHTML } from '../../../utils/formatCode.js'
 
 export function ChallengeBlock({ challenge }) {
   const [showHint, setShowHint] = useState(false)
   const [completed, setCompleted] = useState(false)
+
+  const formattedCode = useMemo(() => {
+    if (!challenge?.starterCode) return null
+    const code = challenge.starterCode
+    const trimmed = code.trim()
+    if (trimmed.startsWith('<')) {
+      return formatHTML(code)
+    }
+    return formatCSS(code)
+  }, [challenge?.starterCode])
 
   if (!challenge) return null
 
@@ -26,9 +37,9 @@ export function ChallengeBlock({ challenge }) {
         </div>
         <p className="mb-4 leading-relaxed text-reading">{challenge.prompt}</p>
 
-        {challenge.starterCode && (
+        {formattedCode && (
           <pre className="mb-4 overflow-x-auto rounded-lg border-2 border-brand-200 bg-brand-50 p-3 text-sm dark:border-brand-700 dark:bg-brand-900">
-            <code>{challenge.starterCode}</code>
+            <code>{formattedCode}</code>
           </pre>
         )}
 

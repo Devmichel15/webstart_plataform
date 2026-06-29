@@ -32,6 +32,72 @@ const htmlTagsQuiz = createQuiz({
   ],
 })
 
+/* ───────── Module 4 Quiz ───────── */
+const htmlTextsQuiz = createQuiz({
+  id: 'html-texts-quiz',
+  title: 'Quiz: Textos e Hierarquia',
+  questions: [
+    createQuestion({ question: 'Quantos h1 uma página deve ter?', options: ['Apenas um', 'Quantos quiser', 'No máximo 3', 'Nenhum'], correctIndex: 0, explanation: 'Deve haver apenas um h1 por página.' }),
+    createQuestion({ question: 'Qual tag usar para importância grave?', options: ['<b>', '<strong>', '<i>', '<em>'], correctIndex: 1, explanation: '<strong> indica importância grave, <b> é apenas visual.' }),
+    createQuestion({ question: 'O que significa pular de h1 para h4?', options: ['É aceitável', 'Quebra a hierarquia semântica', 'O código não valida', 'Melhora o SEO'], correctIndex: 1, explanation: 'Pular níveis quebra a hierarquia para leitores de tela e motores de busca.' }),
+  ],
+})
+
+/* ───────── Module 5 Quiz ───────── */
+const htmlLinksQuiz = createQuiz({
+  id: 'html-links-quiz',
+  title: 'Quiz: Links',
+  questions: [
+    createQuestion({ question: 'Qual atributo do <a> define o destino?', options: ['src', 'href', 'link', 'dest'], correctIndex: 1, explanation: 'href (hypertext reference) define o destino do link.' }),
+    createQuestion({ question: 'Por que usar rel="noopener"?', options: ['Melhora o SEO', 'Segurança contra tabnabbing', 'Acelera o carregamento', 'É obrigatório'], correctIndex: 1, explanation: 'Sem noopener, a nova página pode acessar a aba anterior via window.opener.' }),
+    createQuestion({ question: 'Qual texto de link é o mais adequado?', options: ['"Clique aqui"', '"Saiba mais sobre HTML semântico"', '"Link"', '"Mais"'], correctIndex: 1, explanation: 'O texto do link deve descrever o destino.' }),
+  ],
+})
+
+/* ───────── Module 6 Quiz ───────── */
+const htmlImagesQuiz = createQuiz({
+  id: 'html-images-quiz',
+  title: 'Quiz: Imagens',
+  questions: [
+    createQuestion({ question: 'Qual atributo de img é obrigatório para acessibilidade?', options: ['src', 'alt', 'width', 'height'], correctIndex: 1, explanation: 'alt descreve a imagem para leitores de tela.' }),
+    createQuestion({ question: 'Por que definir width e height?', options: ['Melhora a resolução', 'Evita layout shift (CLS)', 'Reduz o tamanho', 'Acelera o download'], correctIndex: 1, explanation: 'Sem width/height, a imagem ao carregar empurra o conteúdo para baixo.' }),
+    createQuestion({ question: 'Qual formato é ideal para logotipos?', options: ['JPEG', 'SVG', 'GIF', 'BMP'], correctIndex: 1, explanation: 'SVG é vetorial, escalável e suporta transparência.' }),
+  ],
+})
+
+/* ───────── Module 7 Quiz ───────── */
+const htmlListsQuiz = createQuiz({
+  id: 'html-lists-quiz',
+  title: 'Quiz: Listas',
+  questions: [
+    createQuestion({ question: 'Quando usar ol em vez de ul?', options: ['Ordem importa', 'Ordem não importa', 'Sempre', 'Nunca'], correctIndex: 0, explanation: 'ol para sequências onde a ordem importa.' }),
+    createQuestion({ question: 'Qual tag define item de lista?', options: ['<item>', '<li>', '<dd>', '<dt>'], correctIndex: 1, explanation: '<li> (list item) para cada elemento.' }),
+    createQuestion({ question: 'Para que serve <dl>?', options: ['Download', 'Definições (termo + descrição)', 'Lista aninhada', 'Links'], correctIndex: 1, explanation: '<dl> com <dt> e <dd> para glossários.' }),
+  ],
+})
+
+/* ───────── Module 8 Quiz ───────── */
+const htmlTablesQuiz = createQuiz({
+  id: 'html-tables-quiz',
+  title: 'Quiz: Tabelas',
+  questions: [
+    createQuestion({ question: 'Qual tag é para cabeçalho de tabela?', options: ['<td>', '<th>', '<thead>', '<caption>'], correctIndex: 1, explanation: '<th> (table header) para células de cabeçalho.' }),
+    createQuestion({ question: 'Para que serve scope no <th>?', options: ['Largura', 'Conectar cabeçalho às células', 'Cor', 'Alinhamento'], correctIndex: 1, explanation: 'scope conecta semanticamente o cabeçalho às células.' }),
+    createQuestion({ question: 'Por que não usar tabelas para layout?', options: ['São feias', 'Quebram acessibilidade', 'São lentas', 'Não funcionam'], correctIndex: 1, explanation: 'Tabelas para layout prejudicam acessibilidade.' }),
+  ],
+})
+
+/* ───────── Module 9 Quiz ───────── */
+const htmlFormsQuiz = createQuiz({
+  id: 'html-forms-quiz',
+  title: 'Quiz: Formulários',
+  questions: [
+    createQuestion({ question: 'Como associar label ao input?', options: ['for no label + id no input', 'name igual', 'Placeholder', 'Automaticamente'], correctIndex: 0, explanation: '<label for="id"> + <input id="id">' }),
+    createQuestion({ question: 'Qual atributo torna campo obrigatório?', options: ['obrigatory', 'required', 'mandatory', 'force'], correctIndex: 1, explanation: 'required bloqueia envio se campo vazio.' }),
+    createQuestion({ question: 'Qual tipo de input valida email?', options: ['text', 'email', 'url', 'tel'], correctIndex: 1, explanation: 'type="email" valida formato e mostra teclado com @.' }),
+  ],
+})
+
 /* ───────── Module 10 Quiz ───────── */
 const htmlSemanticQuiz = createQuiz({
   id: 'html-semantic-quiz',
@@ -39,10 +105,143 @@ const htmlSemanticQuiz = createQuiz({
   questions: [
     createQuestion({ question: 'Qual tag representa o conteúdo principal?', options: ['<header>', '<main>', '<section>', '<article>'], correctIndex: 1, explanation: '<main> envolve o conteúdo principal da página.' }),
     createQuestion({ question: 'Para que serve a tag <nav>?', options: ['Navegação', 'Notas', 'Novos artigos', 'Números'], correctIndex: 0, explanation: '<nav> define links de navegação.' }),
+    createQuestion({ question: 'Qual a diferença entre article e section?', options: ['Nenhuma', 'Article é independente, section agrupa', 'Section é maior', 'Article é para blogs'], correctIndex: 1, explanation: 'Article faz sentido sozinho (RSS), section agrupa conteúdo relacionado.' }),
   ],
 })
 
-/* ───────── Module 13 Lab ───────── */
+/* ───────── Module 11 Quiz ───────── */
+const htmlSeoQuiz = createQuiz({
+  id: 'html-seo-quiz',
+  title: 'Quiz: SEO',
+  questions: [
+    createQuestion({ question: 'Qual meta tag fornece o snippet do Google?', options: ['keywords', 'description', 'author', 'robots'], correctIndex: 1, explanation: 'meta description aparece como resumo nos resultados.' }),
+    createQuestion({ question: 'O que OG tags controlam?', options: ['SEO', 'Redes sociais', 'Velocidade', 'Cores'], correctIndex: 1, explanation: 'Open Graph controla como o link aparece em redes sociais.' }),
+    createQuestion({ question: 'O que é URL amigável?', options: ['/p?id=1', '/curso-html5', '/pagina.php', '/123'], correctIndex: 1, explanation: 'URLs descritivas com hífens são melhores para SEO.' }),
+  ],
+})
+
+/* ───────── Module 12 Quiz ───────── */
+const htmlA11yQuiz = createQuiz({
+  id: 'html-a11y-quiz',
+  title: 'Quiz: Acessibilidade',
+  questions: [
+    createQuestion({ question: 'O que significa WCAG?', options: ['World Computer Group', 'Web Content Accessibility Guidelines', 'Web Color Guide', 'W3C Code'], correctIndex: 1, explanation: 'Diretrizes de acessibilidade do W3C.' }),
+    createQuestion({ question: 'Qual a regra de ouro do ARIA?', options: ['Usar sempre', 'No ARIA > bad ARIA', 'ARIA é obrigatório', 'Evitar'], correctIndex: 1, explanation: 'Prefira HTML semântico, ARIA só quando necessário.' }),
+    createQuestion({ question: 'Contraste mínimo recomendado?', options: ['2:1', '3:1', '4.5:1', '7:1'], correctIndex: 2, explanation: 'WCAG exige 4.5:1 para texto normal.' }),
+  ],
+})
+
+/* ───────── Module 13 Quiz ───────── */
+const htmlModernoQuiz = createQuiz({
+  id: 'html-moderno-quiz',
+  title: 'Quiz: HTML Moderno',
+  questions: [
+    createQuestion({ question: 'Atributo essencial para controlar mídia?', options: ['autoplay', 'controls', 'loop', 'muted'], correctIndex: 1, explanation: 'controls permite play, pause, volume.' }),
+    createQuestion({ question: 'Por que múltiplos <source>?', options: ['Qualidade', 'Fallback de formatos', 'Velocidade', 'Vários vídeos'], correctIndex: 1, explanation: 'Fallback se navegador não suportar o primeiro formato.' }),
+    createQuestion({ question: 'Atributo obrigatório em iframe para acessibilidade?', options: ['src', 'title', 'width', 'height'], correctIndex: 1, explanation: 'title descreve o conteúdo do iframe.' }),
+  ],
+})
+
+/* ───────── Module 1 Mini Project ───────── */
+const htmlIntroMiniProject = createMiniProject({
+  id: 'html-intro-mini',
+  title: 'Micro-Projeto: Página de Perfil',
+  description: 'Crie sua primeira página web: um perfil profissional.',
+  context: 'Você vai criar a página de perfil que João, do contexto da aula, gostaria de ter para mostrar seu trabalho para agências.',
+  requirements: [
+    'DOCTYPE HTML5 e lang="pt"',
+    'Meta charset UTF-8 e viewport',
+    'Title: "Meu Perfil - [Seu Nome]"',
+    'h1 com seu nome',
+    'p com sua área de atuação',
+    'p com um resumo profissional',
+  ],
+  starterHtml: '<!DOCTYPE html>\n<html lang="pt">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Meu Perfil</title>\n</head>\n<body>\n  <h1>Seu Nome</h1>\n  <p>Sua área de atuação</p>\n  <p>Resumo profissional</p>\n</body>\n</html>',
+  starterCss: 'body { font-family: system-ui, sans-serif; max-width: 640px; margin: 0 auto; padding: 2rem; line-height: 1.6; }\nh1 { color: #059669; }',
+  hint: 'Preencha o h1 com seu nome, o primeiro p com sua profissão, o segundo p com um resumo.',
+  rubric: [
+    'Estrutura HTML completa',
+    'Meta tags configuradas',
+    'Headings e parágrafos corretos',
+    'Código indentado',
+  ],
+})
+
+/* ───────── Module 4 Mini Project ───────── */
+const htmlTextsMiniProject = createMiniProject({
+  id: 'html-texts-mini',
+  title: 'Micro-Projeto: Página de Artigo',
+  description: 'Crie um artigo de blog usando headings e formatação semântica.',
+  context: 'Você é o editor de um blog de tecnologia e precisa publicar um artigo sobre HTML. Use headings hierárquicos e formatação semântica.',
+  requirements: [
+    'h1 com título do artigo',
+    'Mínimo 3 seções com h2',
+    'Subseções com h3',
+    'strong em palavras importantes',
+    'em em palavras com ênfase',
+    'blockquote para citação',
+  ],
+  starterHtml: '<!DOCTYPE html>\n<html lang="pt">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Artigo: HTML5</title>\n</head>\n<body>\n  <article>\n    <h1></h1>\n  </article>\n</body>\n</html>',
+  starterCss: 'body { font-family: system-ui; max-width: 720px; margin: 0 auto; padding: 2rem; line-height: 1.7; }\nh1 { color: #059669; }\nblockquote { border-left: 4px solid #059669; padding-left: 1rem; }',
+  hint: 'Estruture com h1, depois h2 para seções, h3 para subseções. Use strong em dados importantes.',
+  rubric: [
+    'Hierarquia de headings correta',
+    'strong e em usados semanticamente',
+    'blockquote presente',
+    'Código organizado',
+  ],
+})
+
+/* ───────── Module 5 Mini Project ───────── */
+const htmlLinksMiniProject = createMiniProject({
+  id: 'html-links-mini',
+  title: 'Micro-Projeto: Mapa do Site',
+  description: 'Crie uma página com navegação completa usando links.',
+  context: 'Um site precisa de uma página de navegação com links internos, externos e âncoras.',
+  requirements: [
+    'nav com 4 links internos',
+    'Link externo com target e rel seguros',
+    'Âncora "#topo" para voltar ao início',
+    'Link para email (mailto:)',
+    'Texto descritivo em todos os links',
+  ],
+  starterHtml: '<!DOCTYPE html>\n<html lang="pt">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Navegação</title>\n</head>\n<body>\n  <nav>\n    \n  </nav>\n  <main>\n    \n  </main>\n</body>\n</html>',
+  starterCss: 'body { font-family: system-ui; max-width: 640px; margin: 0 auto; padding: 2rem; }\nnav a { display: block; margin: 0.5rem 0; }',
+  hint: 'Links externos precisam de target="_blank" + rel="noopener noreferrer".',
+  rubric: [
+    'Links internos e externos',
+    'Segurança em links externos',
+    'Âncora funcional',
+    'Texto descritivo',
+  ],
+})
+
+/* ───────── Module 10 Mini Project ───────── */
+const htmlSemanticMiniProject = createMiniProject({
+  id: 'html-semantic-mini',
+  title: 'Micro-Projeto: Página de Notícia',
+  description: 'Estruture uma página de notícia usando tags semânticas HTML5.',
+  context: 'Você trabalha no portal de notícias WebStart News e precisa estruturar uma matéria usando HTML semântico.',
+  requirements: [
+    'header com logo e nav',
+    'main com article',
+    'article com header (título + data)',
+    'Sections com h3 dentro do article',
+    'aside com notícias relacionadas',
+    'footer com copyright',
+  ],
+  starterHtml: '<!DOCTYPE html>\n<html lang="pt">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>WebStart News</title>\n</head>\n<body>\n  <header>\n    <h1>WebStart News</h1>\n    <nav>\n      <a href="/">Início</a>\n    </nav>\n  </header>\n  <main>\n    <article>\n      \n    </article>\n    <aside>\n      \n    </aside>\n  </main>\n  <footer>\n    \n  </footer>\n</body>\n</html>',
+  starterCss: 'body { font-family: system-ui; max-width: 960px; margin: 0 auto; padding: 1rem; }\nheader, footer { background: #ecfdf5; padding: 1rem; }\nmain { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }',
+  hint: 'Use article para a notícia principal, aside para links relacionados, section para dividir o artigo.',
+  rubric: [
+    'header, main, footer usados corretamente',
+    'article com header interno',
+    'aside com conteúdo complementar',
+    'Sem divs desnecessárias',
+  ],
+})
+
+/* ───────── Module 14 Lab ───────── */
 const htmlModernoLab = createLab({
   id: 'html-moderno-lab',
   title: 'Laboratório: Página Multimídia',
@@ -95,7 +294,7 @@ export const htmlModules = [
     lessons: ['html-intro'],
     quiz: htmlIntroQuiz,
     lab: null,
-    miniProject: null,
+    miniProject: htmlIntroMiniProject,
   }),
   createModule({
     id: 'html-structure-module',
@@ -126,9 +325,9 @@ export const htmlModules = [
     description: 'Headings, parágrafos, formatação e blocos de código.',
     order: 4,
     lessons: ['html-headings', 'html-paragraphs'],
-    quiz: null,
+    quiz: htmlTextsQuiz,
     lab: null,
-    miniProject: null,
+    miniProject: htmlTextsMiniProject,
   }),
   createModule({
     id: 'html-links-module',
@@ -137,9 +336,9 @@ export const htmlModules = [
     description: 'Hipertexto, âncoras, links internos e externos.',
     order: 5,
     lessons: ['html-links'],
-    quiz: null,
+    quiz: htmlLinksQuiz,
     lab: null,
-    miniProject: null,
+    miniProject: htmlLinksMiniProject,
   }),
   createModule({
     id: 'html-images-module',
@@ -148,7 +347,7 @@ export const htmlModules = [
     description: 'Formatos, otimização e acessibilidade.',
     order: 6,
     lessons: ['html-images'],
-    quiz: null,
+    quiz: htmlImagesQuiz,
     lab: null,
     miniProject: null,
   }),
@@ -159,7 +358,7 @@ export const htmlModules = [
     description: 'Listas ordenadas, não ordenadas e de definição.',
     order: 7,
     lessons: ['html-lists'],
-    quiz: null,
+    quiz: htmlListsQuiz,
     lab: null,
     miniProject: null,
   }),
@@ -170,7 +369,7 @@ export const htmlModules = [
     description: 'Estruturas tabulares e boas práticas.',
     order: 8,
     lessons: ['html-tables'],
-    quiz: null,
+    quiz: htmlTablesQuiz,
     lab: null,
     miniProject: null,
   }),
@@ -181,7 +380,7 @@ export const htmlModules = [
     description: 'Inputs, validações e formulários profissionais.',
     order: 9,
     lessons: ['html-forms'],
-    quiz: null,
+    quiz: htmlFormsQuiz,
     lab: null,
     miniProject: null,
   }),
@@ -194,7 +393,7 @@ export const htmlModules = [
     lessons: ['html-semantic'],
     quiz: htmlSemanticQuiz,
     lab: null,
-    miniProject: null,
+    miniProject: htmlSemanticMiniProject,
   }),
   createModule({
     id: 'html-seo-module',
@@ -203,7 +402,7 @@ export const htmlModules = [
     description: 'Meta tags, headings e indexação.',
     order: 11,
     lessons: ['html-seo'],
-    quiz: null,
+    quiz: htmlSeoQuiz,
     lab: null,
     miniProject: null,
   }),
@@ -214,7 +413,7 @@ export const htmlModules = [
     description: 'Leitores de tela, labels, ARIA e navegação.',
     order: 12,
     lessons: ['html-accessibility'],
-    quiz: null,
+    quiz: htmlA11yQuiz,
     lab: null,
     miniProject: null,
   }),
@@ -225,7 +424,7 @@ export const htmlModules = [
     description: 'audio, video, iframe, dialog, progress e meter.',
     order: 13,
     lessons: ['html-moderno'],
-    quiz: null,
+    quiz: htmlModernoQuiz,
     lab: htmlModernoLab,
     miniProject: null,
   }),

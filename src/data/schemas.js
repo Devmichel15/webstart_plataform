@@ -149,6 +149,8 @@ export function createLesson({
   quiz = null,
   summary = [],
   checklist = [],
+  videoRecommendations = [],
+  finalTip = '',
 }) {
   return {
     id,
@@ -180,6 +182,8 @@ export function createLesson({
     quiz,
     summary,
     checklist,
+    videoRecommendations,
+    finalTip,
     type: 'lesson',
   }
 }

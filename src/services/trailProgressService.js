@@ -9,7 +9,7 @@ const STATUS_COMPLETED = 'completed'
 export function computeTrailStatus(trailId, completedLessons, completedCourses) {
   const trail = getTrailById(trailId)
   if (!trail) return STATUS_LOCKED
-  if (trail.status === 'soon' || trail.status === 'building') return STATUS_LOCKED
+  if (trail.status === 'soon') return STATUS_LOCKED
 
   const lessons = allLessons.filter((l) => l.courseId === trailId)
   const completedInTrail = lessons.filter((l) => completedLessons.includes(l.id))
