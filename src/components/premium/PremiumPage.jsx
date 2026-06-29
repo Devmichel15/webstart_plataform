@@ -1,9 +1,10 @@
 import { Sparkles } from 'lucide-react'
 import { PremiumFeatureCard } from './PremiumFeatureCard'
 import { PremiumCTA } from './PremiumCTA'
+import { TokenAccess } from './TokenAccess'
 import { PREMIUM_FEATURES, GOOGLE_HTML_PAYMENT_FORM_URL } from '../../config/premium.js'
 
-export function PremiumPage({ trail }) {
+export function PremiumPage({ trail, onUnlocked }) {
   const courseTitle = trail?.title || 'HTML5'
   const formUrl = GOOGLE_HTML_PAYMENT_FORM_URL
 
@@ -43,6 +44,8 @@ export function PremiumPage({ trail }) {
           ))}
         </div>
       </div>
+
+      <TokenAccess courseId={trail?.id} onUnlocked={onUnlocked} />
 
       <div className="text-center">
         <PremiumCTA formUrl={formUrl} courseTitle={courseTitle} />

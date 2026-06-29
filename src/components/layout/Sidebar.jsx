@@ -7,21 +7,13 @@ import {
   GraduationCap,
   LayoutDashboard,
   LogOut,
-  Sparkles,
+  Shield,
 } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth.js'
 import { useProgress } from '../../hooks/useProgress.js'
+import { useUser } from '../../hooks/useUser.js'
 import { logoutUser } from '../../services/authService.js'
 import { useToast } from '../../contexts/ToastContext.jsx'
-
-const navItems = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/trilhas', label: 'Trilhas', icon: BookOpen },
-  { to: '/laboratorio', label: 'Laboratório', icon: Beaker },
-  { to: '/chat', label: 'Tutor IA', icon: Bot },
-  { to: '/materiais', label: 'Materiais', icon: GraduationCap },
-  { to: '/perfil', label: 'Perfil', icon: Award },
-]
 
 function UserBadge() {
   const { user } = useAuth()
@@ -66,7 +58,29 @@ function UserBadge() {
   )
 }
 
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL
+
+function getAdminItem(profile, fbUser) {
+  const isAdmin = profile?.role === 'admin' || fbUser?.email === ADMIN_EMAIL
+  return isAdmin
+    ? [{ to: '/admin/payment-verifier', label: 'Admin', icon: Shield }]
+    : []
+}
+
+const baseNavItems = [
+  { to: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/trilhas', label: 'Trilhas', icon: BookOpen },
+  { to: '/laboratorio', label: 'Laboratório', icon: Beaker },
+  { to: '/chat', label: 'Tutor IA', icon: Bot },
+  { to: '/materiais', label: 'Materiais', icon: GraduationCap },
+  { to: '/perfil', label: 'Perfil', icon: Award },
+]
+
 export function Sidebar() {
+  const { user: profile } = useUser()
+  const { user: fbUser } = useAuth()
+  const navItems = [...getAdminItem(profile, fbUser), ...baseNavItems]
+
   return (
     <aside className="hidden w-64 shrink-0 flex-col border-r border-strong bg-surface text-primary lg:flex">
       <div className="mb-8 flex items-center gap-3 px-2 pt-4">
@@ -107,6 +121,10 @@ export function Sidebar() {
 }
 
 export function MobileNav() {
+  const { user: profile } = useUser()
+  const { user: fbUser } = useAuth()
+  const navItems = [...getAdminItem(profile, fbUser), ...baseNavItems]
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 flex border-t-3 border-strong bg-surface lg:hidden">
       {navItems.map(({ to, label, icon: Icon }) => (

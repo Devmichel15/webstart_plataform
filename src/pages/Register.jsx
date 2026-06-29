@@ -45,34 +45,43 @@ export default function Register() {
   }
 
   return (
-    <AuthLayout title="Criar conta" subtitle="Comece sua jornada na WebStart Academy.">
+    <AuthLayout
+      title="Criar conta"
+      subtitle="Comece sua jornada na WebStart Academy."
+    >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="mb-1 block text-sm font-bold">Nome</label>
+          <label htmlFor="name" className="mb-1 block text-sm font-bold">
+            Nome
+          </label>
           <input
             id="name"
             type="text"
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-lg border-3 border-brand-800 bg-white px-3 py-2 text-sm dark:border-brand-400 dark:bg-brand-950"
+            className="w-full rounded-lg border-3 border-brand-800 text-lg text-black bg-white px-3 py-2 text-sm dark:border-brand-400 dark:bg-brand-950"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-bold">Email</label>
+          <label htmlFor="email" className="mb-1 block text-sm font-bold">
+            Email
+          </label>
           <input
             id="email"
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-lg border-3 border-brand-800 bg-white px-3 py-2 text-sm dark:border-brand-400 dark:bg-brand-950"
+            className="w-full rounded-lg border-3 border-brand-800 text-lg text-black bg-white px-3 py-2 dark:border-brand-400 dark:bg-brand-950"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-bold">Senha</label>
+          <label htmlFor="password" className="mb-1 block text-sm font-bold">
+            Senha
+          </label>
           <input
             id="password"
             type="password"
@@ -80,12 +89,16 @@ export default function Register() {
             minLength={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg border-3 border-brand-800 bg-white px-3 py-2 text-sm dark:border-brand-400 dark:bg-brand-950"
+            className="w-full rounded-lg border-3 border-brand-800 text-lg text-black bg-white px-3 py-2 dark:border-brand-400 dark:bg-brand-950"
           />
         </div>
 
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? <Loader2 className="animate-spin" size={18} /> : 'Criar conta'}
+          {loading ? (
+            <Loader2 className="animate-spin" size={18} />
+          ) : (
+            "Criar conta"
+          )}
         </Button>
       </form>
 
@@ -102,15 +115,19 @@ export default function Register() {
         disabled={googleLoading}
         onClick={handleGoogleLogin}
       >
-        {googleLoading ? <Loader2 className="animate-spin" size={18} /> : 'Registrar com Google'}
+        {googleLoading ? (
+          <Loader2 className="animate-spin" size={18} />
+        ) : (
+          "Registrar com Google"
+        )}
       </Button>
 
       <p className="mt-6 text-center text-sm">
-        Já tem conta?{' '}
+        Já tem conta?{" "}
         <Link to="/login" className="font-bold text-brand-600 hover:underline">
           Entrar
         </Link>
       </p>
     </AuthLayout>
-  )
+  );
 }

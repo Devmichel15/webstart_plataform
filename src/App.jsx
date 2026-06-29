@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext.jsx'
 import { ToastProvider } from './contexts/ToastContext.jsx'
 import { ProgressProvider } from './contexts/ProgressContext.jsx'
 import { ProtectedRoute } from './components/auth/ProtectedRoute.jsx'
+import { AdminRoute } from './components/auth/AdminRoute.jsx'
 import { ToastContainer } from './components/ui/Toast.jsx'
 import { AppLayout } from './components/layout/AppLayout'
 import Dashboard from './pages/Dashboard'
@@ -24,6 +25,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ForgotPassword from './pages/ForgotPassword'
 import Onboarding from './pages/Onboarding'
+import PaymentVerifier from './pages/admin/PaymentVerifier'
 
 export default function App() {
   return (
@@ -60,6 +62,14 @@ export default function App() {
                   <Route path="materiais" element={<Materials />} />
                   <Route path="perfil" element={<Profile />} />
                   <Route path="chat" element={<AIChat />} />
+                  <Route
+                    path="admin/payment-verifier"
+                    element={
+                      <AdminRoute>
+                        <PaymentVerifier />
+                      </AdminRoute>
+                    }
+                  />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace />} />
